@@ -1,6 +1,7 @@
 import tkinter as tk
 import logging
-from binance_futures import write_log
+# from binance_futures import write_log
+from bitmex import get_contracts
 
 logger = logging.getLogger()
 
@@ -23,5 +24,22 @@ logger.addHandler(file_handler)
 
 
 if __name__ == '__main__':
+
+    bitmex_contracts = get_contracts()
+
     root = tk.Tk()
+
+    i = 0
+    j = 0
+
+    for contract in bitmex_contracts:
+        label_widget = tk.Label(root, text=contract)
+        label_widget.grid(row=1, column=j)
+
+        if i == 4:
+            j += 1
+            i = 0
+        else:
+            i += 1
+
     root.mainloop()
