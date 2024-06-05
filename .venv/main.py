@@ -27,10 +27,7 @@ logger.addHandler(file_handler)
 if __name__ == '__main__':
 
     binance = BinanceFuturesClient("paste in public_key from binance testnet", "paste in secret_key from binance testnet?", True)    
-    print(binance.get_balances())
-    # print(binance.place_order("BTCUSDT", "BUY", 0.01, "LIMIT", 20000, "GTC"))
-    # print(binance.get_order_status("BTCUSDT", here comes the orderID))
-    # print(binance.cancel_order("BTCUSDT", here comes the orderID))
+    
 
     root = tk.Tk()
     root.mainloop()
