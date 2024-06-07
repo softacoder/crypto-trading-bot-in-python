@@ -26,7 +26,10 @@ logger.addHandler(file_handler)
 
 if __name__ == '__main__':
 
-    binance = BinanceFuturesClient("paste in public_key from binance testnet", "paste in secret_key from binance testnet?", True)    
+    binance = BinanceFuturesClient("paste in public_key from binance testnet", "paste in secret_key from binance testnet?", 12)
+
+    candles = binance.get_historical_candles()
+    candles[-1]
     
 
     root = tk.Tk()
