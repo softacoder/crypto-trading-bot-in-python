@@ -207,7 +207,7 @@ class BinanceFuturesClient:
         def _on_open(self, ws):
             logger.info("Binance connection opened")
 
-            self.subscribe_channel(self.contracts['BTCUSDT'])
+            self.subscribe_channel(list(self.contracts.values()), "bookTicker")
 
         def _on_close(self, ws):
             logger.warning("Binance connection closed")
@@ -232,16 +232,18 @@ class BinanceFuturesClient:
 
                     print(self.prices)[symbol]
 
-        def subscribe_channel(self, contract: Contract):
+        def subscribe_channel(self, contracts: typing.List[Contract], channel: str):
             data = dict()
             data['method'] = "SUBSCRIBE"
             data['params'] = []
-            data['params'].append(contract.symbol.lower() + "@bookTicker")
+
+            for contract in contracts:
+                data['params'].append(contract.symbol.lower() + "@" + channel)
             data['id'] = self.ws_id
 
             try:
                 self.ws.send(json.dumps(data))
             except Exception as e:
-                logger.error("Websocket error while subscribing to %s: %s", contract.symbol, e)   
+                logger.error("Websocket error while subscribing to %s %s updates: %s", len(contracts), channel, e)   
 
             self.ws_id += 1
