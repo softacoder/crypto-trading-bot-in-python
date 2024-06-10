@@ -27,10 +27,13 @@ logger.addHandler(file_handler)
 
 if __name__ == '__main__':
 
+    
+
     binance = BinanceFuturesClient("paste in public_key from binance testnet", "paste in secret_key from binance testnet?", True)
 
     bitmex = BitmexClient("paste in public_key from bitmex testnet", "paste in secret_key from bitmex testnet?" , True)
 
-    bitmex.get_historical_candles(bitmex.contract['XBTUSD'], "1h")
+    print(bitmex.place_order(bitmex.contract['XBTUSD'], "Limit", 100, "Buy", 20000.4939338, "GoodTillCancel"))
+          
     root = tk.Tk()
     root.mainloop()
