@@ -31,7 +31,6 @@ if __name__ == '__main__':
 
     bitmex = BitmexClient("paste in public_key from bitmex testnet", "paste in secret_key from bitmex testnet?" , True)
 
-    # print(bitmex.cancel_order("1a55xxxx-and so on").status)
-
+    bitmex.get_historical_candles(bitmex.contract['XBTUSD'], "1h")
     root = tk.Tk()
     root.mainloop()
