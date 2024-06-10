@@ -4,6 +4,7 @@ import logging
 # from bitmex import get_contracts
 
 from connectors.binance_futures import BinanceFuturesClient
+from connectors.bitmex import BitmexClient
 
 logger = logging.getLogger()
 
@@ -26,11 +27,11 @@ logger.addHandler(file_handler)
 
 if __name__ == '__main__':
 
-    binance = BinanceFuturesClient("paste in public_key from binance testnet", "paste in secret_key from binance testnet?", 12)
+    binance = BinanceFuturesClient("paste in public_key from binance testnet", "paste in secret_key from binance testnet?", True)
 
-    candles = binance.get_historical_candles()
-    candles[-1]
-    
+    bitmex = BitmexClient("paste in public_key from bitmex testnet", "paste in secret_key from bitmex testnet?" , True)
+
+    # print(bitmex.cancel_order("1a55xxxx-and so on").status)
 
     root = tk.Tk()
     root.mainloop()
