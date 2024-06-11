@@ -29,8 +29,7 @@ if __name__ == '__main__':
     
 
     binance = BinanceFuturesClient("paste in public_key from binance testnet", "paste in secret_key from binance testnet?", True)
-
-    bitmex = BitmexClient("paste in public_key from bitmex testnet", "paste in secret_key from bitmex testnet?" , True)
+    bitmex = BitmexClient(root, "paste in public_key from bitmex testnet", "paste in secret_key from bitmex testnet?" , True)
           
-    root = Root()
+    root = Root(binance, bitmex)
     root.mainloop()

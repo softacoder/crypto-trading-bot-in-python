@@ -35,6 +35,8 @@ class BinanceFuturesClient:
 
         self.prices = dict()
 
+        self.logs = []
+
         self._ws_id = 1
         self._ws = None
 
@@ -42,16 +44,20 @@ class BinanceFuturesClient:
         t.start()
 
         logger.info("Binance Futures Client successfully initialized")
+    
+    def _add_log(self, msg: str):
+        logger.info("%s", msg)
+        self.logs.append({"log": msg, "displayed": False})
 
-    # def _generate_signature(self, data: typing.Dict) -> str:
-    #     return hmac.new(self._secret_key.encode(), urlencode(data).encode(), hashlib.sha256).hexdigest()
+    def _generate_signature(self, data: typing.Dict) -> str:
+        return hmac.new(self._secret_key.encode(), urlencode(data).encode(), hashlib.sha256).hexdigest()
 
     # def _generate_signature(self, method: str, endpoint: str, expires: str, data: typing.Dict) -> str:
         
     #     message = method + endpoint + "?" + urlencode(data) + expires if len(data) > 0 else method + endpoint + expires
     #     return hmac.new(self._secret_key.encode(), message.encode(), hashlib.sha256).hexdigest()
 
-    # def _make_requests(self, method: str, endpoint: str, data: typing.Dict):
+    def _make_requests(self, method: str, endpoint: str, data: typing.Dict):
 
     #     headers = dict()
     #     expires = str(int(time.time()) +5)
@@ -59,9 +65,9 @@ class BinanceFuturesClient:
     #     headers['api-key'] = self.public_key
     #     headers['api-signature'] = self._generate_signature()
 
-    #     if method == "GET":
-    #         try:
-    #             response = requests.get(self._base_url + endpoint, params=data, headers=headers)
+        if method == "GET":
+            try:
+                response = requests.get(self._base_url + endpoint, params=data, headers=headers)
     #         except Exception as e:
     #             logger.error("Connection error while making %s request to %s: %s", method, endpoint, e)
     #         return None
