@@ -5,13 +5,15 @@ from connectors.binance_futures import BinanceFuturesClient
 
 from interface.styling import *
 from interface.logging_component import Logging
+from interface.watchlist_component import Watchlist
 
 class Root(tk.TK):
     def __init__(self, binance:BinanceFuturesClient, bitmex: BitmexClient):
         super().__init__()
 
-        self.binance = binance
-        self.bitmex = bitmex
+        self.binance_symbols = list(binance_contracts.keys())
+        self.bitmex_symbols = list (bitmex_contracts.keys())
+
 
         self.title("Trading Bot")
 
@@ -22,6 +24,9 @@ class Root(tk.TK):
 
         self.right_frame = tk.Frame(self, bg=BG_COLOR)
         self.right_frame.pack(side=tk.LEFT)
+
+        self._watchlist_frame = Watchlist(self.binance.contracts, self.bitmexself._left_frame, bg=BG_COLOR)
+        self._watchlist_frame.pack(side=tk.TOP)
 
         self._logging_frame - Logging(self._left_frame, bg=BG_COLOR)
         self._logging_frame.pack(side=tk.TOP)
