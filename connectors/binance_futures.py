@@ -68,30 +68,30 @@ class BinanceFuturesClient:
         if method == "GET":
             try:
                 response = requests.get(self._base_url + endpoint, params=data, headers=headers)
-    #         except Exception as e:
-    #             logger.error("Connection error while making %s request to %s: %s", method, endpoint, e)
-    #         return None
-    #     elif method == "POST":
-    #         try:
-    #             response = requests.post(self._base_url + endpoint, params=data, headers=headers)
-    #         except Exception as e:
-    #             logger.error("Connection error while making %s request to %s: %s", method, endpoint, e)
-    #         return None
-    #     elif method == "DELETE":
-    #         try:
-    #             response = requests.delete(self._base_url + endpoint, params=data, headers=headers)
-    #         except Exception as e:
-    #             logger.error("Connection error while making %s request to %s: %s", method, endpoint, e)
-    #         return None
-    #     else: 
-    #         raise ValueError()
+            except Exception as e:
+                logger.error("Connection error while making %s request to %s: %s", method, endpoint, e)
+            return None
+        elif method == "POST":
+            try:
+                response = requests.post(self._base_url + endpoint, params=data, headers=headers)
+            except Exception as e:
+                logger.error("Connection error while making %s request to %s: %s", method, endpoint, e)
+            return None
+        elif method == "DELETE":
+            try:
+                response = requests.delete(self._base_url + endpoint, params=data, headers=headers)
+            except Exception as e:
+                logger.error("Connection error while making %s request to %s: %s", method, endpoint, e)
+            return None
+        else: 
+            raise ValueError()
             
-    #     if response.status_code == 200:
-    #         return response.json()
-    #     else:
-    #         logger.error("Error while making %s request to %s: %s (error code %s)",
-    #                         method, endpoint, response.json(), response.status_code)
-    #         return None
+        if response.status_code == 200:
+            return response.json()
+        else:
+            logger.error("Error while making %s request to %s: %s (error code %s)",
+                            method, endpoint, response.json(), response.status_code)
+            return None
 
     def get_contracts(self) -> typing.Dict[str, Contract]:
         exchange_info = self._make_request("GET", "/fapi/v1/exchangeInfo", dict())
@@ -100,7 +100,7 @@ class BinanceFuturesClient:
 
         if exchange_info is not None:
             for contract_data in exchange_info['symbols']:
-                contracts[contract_data['pair']] = Contract(contract_data, "binance")
+                contracts[contract_data['symbols']] = Contract(contract_data, "binance")
 
             
         

@@ -1,6 +1,7 @@
 import tkinter as tkinter
 import typing
 
+
 from models import *
 from interface.styling import *
 
