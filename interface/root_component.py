@@ -7,6 +7,7 @@ from connectors.binance_futures import BinanceFuturesClient
 from interface.styling import *
 from interface.logging_component import Logging
 from interface.watchlist_component import Watchlist
+from interface.trades_component import TradesWatch
 
 logger = logging.getLogger()
 
@@ -16,7 +17,7 @@ class Root(tk.TK):
         super().__init__()
 
         self.binance_symbols = list(binance_contracts.keys())
-        self.bitmex_symbols = list (bitmex_contracts.keys())
+        self.bitmex_symbols = list(bitmex_contracts.keys())
 
 
         self.title("Trading Bot")
@@ -34,6 +35,9 @@ class Root(tk.TK):
 
         self._logging_frame - Logging(self._left_frame, bg=BG_COLOR)
         self._logging_frame.pack(side=tk.TOP)
+
+        self._trades_frame - TradesWatch(self._right_frame, bg=BG_COLOR)
+        self._trades_frame.pack(side=tk.TOP)
 
         self._update_ui()
 
@@ -83,10 +87,10 @@ class Root(tk.TK):
 
                 if prices['bid'] is not None:
                     price_str = "{0:.{prec}f".format(prices['bid'], prec=precision)
-                    self._watchlist_frame.body_wifgets['bid_var'][key].set(price_str)
+                    self._watchlist_frame.body_widgets['bid_var'][key].set(price_str)
                 if prices['ask'] is not None:
                     price_str = "{0:.{prec}f".format(prices['ask'], prec=precision)
-                    self._watchlist_frame.body_wifgets['ask_var'][key].set(price_str)
+                    self._watchlist_frame.body_widgets['ask_var'][key].set(price_str)
 
         except RuntimeError as e:
             logger.error("Error while looping through watchlist dictionary: %s", e)
