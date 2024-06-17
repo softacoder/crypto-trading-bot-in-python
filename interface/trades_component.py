@@ -66,3 +66,6 @@ class TradesWatch(tk.Frame):
         self.body_widgets['pnl_var'][t_index].grid(row=b_index, column=7)
 
         self._body_index += 1
+
+
+# This is source code from repository
