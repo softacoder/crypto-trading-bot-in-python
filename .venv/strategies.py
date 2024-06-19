@@ -15,6 +15,8 @@ class Strategy:
         self.take_profit = take_profit
         self.stop_loss = stop_loss
 
+        self.candles: List[Candle] = []
+
 class TechnicalStrategy(Strategy):
     def __init__(self, contract: Contract, exchange: str, timeframe: str, balance_pct: float, take_profit: float, 
                  stop_loss: float, other_params: typing: Dict):
@@ -24,8 +26,7 @@ class TechnicalStrategy(Strategy):
         self._slow = other_params['ema_slow']
         self._ema_signal = other_params['ema_signal']
     
-        print("Activated strategy for ", contract.symbol)
-                                      ]
+        # print("Activated strategy for ", contract.symbol)                       ]
     
 class BreakoutStrategy(Strategy):
     def __init__(self, contract: Contract, exchange: str, timeframe: str, balance_pct: float, take_profit: float, 

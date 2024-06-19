@@ -14,6 +14,8 @@ import threading
 
 from models import *
 
+from_strategies import TechnicalStrategy, _BreakoutStrategy 
+
 logger = logging.getLogger()
 
 class BinanceFuturesClient:
@@ -34,6 +36,7 @@ class BinanceFuturesClient:
         self.balances = self.get_balances()
 
         self.prices = dict()
+        self.strategies: typing.Dict[int, typing.Union[TechnicalStrategy, BreakoutStrategy]] = dict()
 
         self.logs = []
 
@@ -247,7 +250,11 @@ def get_bid_ask(self, contract: Contract) -> typing.Dict[str, float]:
                     self.prices[symbol]['bid'] = float(data['b'])
                     self.prices[symbol]['ask'] = float(data['a'])
 
-                print(self.prices)[symbol]
+            elif data['e'] == "aggTrade":
+                 
+                 symbol = data['s']
+
+                # print(self.prices)[symbol]
 
     def subscribe_channel(self, contracts: typing.List[Contract], channel: str):
         data = dict()
