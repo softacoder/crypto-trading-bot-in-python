@@ -254,7 +254,9 @@ def get_bid_ask(self, contract: Contract) -> typing.Dict[str, float]:
                  
                  symbol = data['s']
 
-                # print(self.prices)[symbol]
+                for key, strat in self.strategies.items():
+                    if strat.contract.symbol == symbol:
+                         strat.parse_trades(float(data['p']), float(data['q']), data['T'])
 
     def subscribe_channel(self, contracts: typing.List[Contract], channel: str):
         data = dict()
