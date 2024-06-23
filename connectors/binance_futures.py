@@ -44,7 +44,7 @@ class BinanceFuturesClient:
         self.logs = []
 
         self._ws_id = 1
-        self._ws = None
+        self.ws: websocket.WebSocketApp
 
         t = threading.Thread(target=self._start_ws)
         t.start()
@@ -206,7 +206,9 @@ class BinanceFuturesClient:
 
         while True:
             try:
-                self._ws.run_forever()
+                if self.reconnect:
+                    self._ws.run_forever()
+                break
             except Exception as e:
                 logger.error("Binance error in run_forever() method: %s", e)
             time.sleep(2)
@@ -260,7 +262,7 @@ class BinanceFuturesClient:
                         res = strat.parse_trades(float(data['p']), float(data['q']), data['T'])
                         strat.check_trade(res)
 
-    def subscribe_channel(self, contracts: typing.List[Contract], channel: str):
+    def subscribe_channel(self, contracts: typing.List[Contract]):
         data = dict()
         data['method'] = "SUBSCRIBE"
         data['params'] = []
@@ -270,7 +272,7 @@ class BinanceFuturesClient:
         data['id'] = self._ws_id
 
         try:
-            self._ws.send(json.dumps(data))
+            self.ws.send(json.dumps(data))
         except Exception as e:
             logger.error("Websocket error while subscribing to %s %s updates: %s", len(contracts), channel, e)
 
