@@ -298,7 +298,7 @@ class StrategyEditor(tk.Frame):
                 code_name = base_param['code_name']
 
                 if base_param['widget'] == tk.OptionsMenu and row[code_name] is not None:
-                self.body_widgets[b_index][code_name + "_var"][b_index].set(row[code_name])
+                    self.body_widgets[b_index][code_name + "_var"][b_index].set(row[code_name])
 
                 elif base_param['widget'] == tk.Entry and row[code_name] is not None:
                 self.body_widgets[code_name][b_index].insert(tk.END, row[code_name])

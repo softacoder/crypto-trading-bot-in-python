@@ -158,8 +158,8 @@ class Root(tk.Tk):
 
         watchlist_symbols = []
 
-        for key, value in self._watchlist.body_widgets['symbol'].items()
-        symbol = value.cget("text")
+        for key, value in self._watchlist.body_widgets['symbol'].items():
+            symbol = value.cget("text")
         exchange = self._watchlist_frame_frame.body_widgets[exchange][key].cget("text")
 
         watchlist_symbol.append((symbol, exchange,))

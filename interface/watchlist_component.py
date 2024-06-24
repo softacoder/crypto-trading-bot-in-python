@@ -6,7 +6,7 @@ from models import *
 
 from interface.styling import *
 from interface.autocomplete_widget import Autocomplete
-for interface.scrollable_frame import ScrollableFrame
+from interface.scrollable_frame import ScrollableFrame
 
 from database import WorkspaceData
 
