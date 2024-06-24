@@ -2,6 +2,8 @@ import tkinter as tk
 import typing
 import tkmacosx as tkmac
 
+import json
+
 from interface.styling import *
 from interface.scrollable_frame import ScrollableFrame
 
@@ -11,6 +13,7 @@ from connectors.bitmex import BitmexClient
 from strategies import TechnicalStrategy, BreakoutStrategy
 from utils import *
 
+from database import WorkspaceData
 
 if typing.TYPE_CHECKING:
     from interface.root_component import Root
@@ -21,6 +24,7 @@ class StrategyEditor(tk.Frame):
         super().__init__(*args, **kwargs)
 
         self.root = root
+        self.db = WorkspaceData()
         self._valid_integer = self.register(check_integer_format)
         self._valid_float = self.register(check_float_format)
 
@@ -100,7 +104,9 @@ class StrategyEditor(tk.Frame):
             if h['code_name'] in ["strategy_type", "contract", "timeframe"]:
                 self.body_widgets[h['code_name'] + "_var"] = dict()
 
-        self._body_index = 1
+        self._body_index = 0
+
+        self._load_workspace()
 
     def _add_strategy_row(self):
         b_index = self._body_index
@@ -221,8 +227,8 @@ class StrategyEditor(tk.Frame):
 
         strat_selected = self.body_widgets['strategy_type_var'][b_index].get()
 
-        for param in self._extra_params[strat_selected]:
-            if self._additional_parameters[b_index][param['code_name']] is None:
+        for param in self.extra_params[strat_selected]:
+            if self.additional_parameters[b_index][param['code_name']] is None:
                 self.root.logging_frame.add_log(f"Missing {param['code_name']} parameter")
                 return
 
@@ -279,3 +285,26 @@ class StrategyEditor(tk.Frame):
             self.body_widgets['activation'][b_index].config(bg="darkred", text="OFF")
             self.root.logging_frame.add_log(f"{strat_selected} strategy on {symbol} / {timeframe} stopped")
 
+    def _load_workspace(self):
+
+        data = self.db.get("strategies")
+
+        for row in data:
+            self._add_strategy_row()
+
+            b_index = self._body_index -1
+
+            for base_param in self._base_params:
+                code_name = base_param['code_name']
+
+                if base_param['widget'] == tk.OptionsMenu and row[code_name] is not None:
+                self.body_widgets[b_index][code_name + "_var"][b_index].set(row[code_name])
+
+                elif base_param['widget'] == tk.Entry and row[code_name] is not None:
+                self.body_widgets[code_name][b_index].insert(tk.END, row[code_name])
+
+            extra_params = json.loads(row['extra_params'])
+
+            for param, value in extra_params.items():
+                if value is not None:
+                    self.additional_parameters[b_index][param] = value
