@@ -1,16 +1,23 @@
 {
   "cSpell.words": [
+    "APIKEY",
+    "binancefuture",
     "Bitmex",
     "borderless",
+    "BTCUSDT",
     "Calibri",
     "columnspan",
     "darkgreen",
     "darkred",
     "dateutil",
+    "dropna",
+    "fapi",
+    "fstream",
     "highlightthickness",
     "Hiroki",
     "indicatoron",
     "insertbackground",
+    "klines",
     "levelname",
     "MACD",
     "Ohtani",
@@ -26,6 +33,7 @@
     "tkmac",
     "tkmacosx",
     "validatecommand",
-    "watchlist"
+    "watchlist",
+    "yscrollcommand"
   ]
 }
